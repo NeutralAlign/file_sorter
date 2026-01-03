@@ -10,9 +10,7 @@ def main():
     
     print(f"Selected folder: {folder_path}")
 
-    extensions = utils.extension_list(folder_path)
-
-    sorter.sort(folder_path, extensions)
+    sorter.sort(folder_path)
 
 
 # “Only run main() if this file is being executed directly, not imported.”
