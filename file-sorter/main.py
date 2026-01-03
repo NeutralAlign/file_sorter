@@ -14,7 +14,7 @@ def main():
 
     sorter.sort(folder_path, extensions)
 
-
+    return
 
 # “Only run main() if this file is being executed directly, not imported.”
 if __name__ == "__main__":
