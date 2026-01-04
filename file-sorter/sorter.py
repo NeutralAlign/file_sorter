@@ -1,57 +1,58 @@
 from pathlib import Path
-import sys, shutil, utils
-import os
+import shutil, utils
+
 
 # sorts the files into corresponding folders
-def sort(folder_path: str):
+def sort(folder_path: str, backup_enabler: bool) -> bool:
+    if backup_enabler:
+        if not backup(folder_path, True):
+            return False
 
-    backup_enabler = input("Automatically backup files before sorting? (y/n): ").lower()
-    if backup_enabler == "y":
-        if backup(folder_path) == False:
-            return
-
-    if folder_setup(folder_path) == False:
-        return
+    if not folder_setup(folder_path):
+        return False
 
     source = Path(folder_path)
+    items = list(source.iterdir())
 
-    for item in source.iterdir():
+    for item in items:
         if item.is_file():
             label = utils.get_extension(item.name)
-            dest = Path(folder_path) / label
+            dest = source / label
             target = utils.unique_destination(dest, item.name)
             shutil.move(item, target)
-    
-    print("Process completed.")
+
+    return True
     
 # stores copies of the files in case of issues
-def backup(folder_path: str) -> bool:
-    if utils.check_folder(folder_path, "backup") == False: 
+def backup(folder_path: str, allow_overwrite: bool) -> bool:
+    if not utils.check_folder(folder_path, "backup"):
         utils.create_folder(folder_path, "backup")
     
     source = Path(folder_path)
-    dest = Path(folder_path) / "backup"
+    dest = source / "backup"
     
-    # if any files exists in the directory...
-    if any(dest.iterdir()):
-        print("'backup' folder is not empty. Proceeding will overwrite any conflicting files.")
-        if input("Proceed? (y/n) ").lower() != "y":
-            if input("Continue to sort without backup? (y/n): ").lower() != "y":
-                return False
+    # do not backup under these conditions
+    if any(dest.iterdir()) and not allow_overwrite:
+        return False
+    
+    # else, backup files in a folder
+    items = list(source.iterdir()) # safer than messing with files directly
 
-    items = list(source.iterdir())
     for item in items:
         if item.is_file():
             shutil.copy(item, dest)
+
     return True
 
 # makes a folder per extension in selected directory
 def folder_setup(folder_path: str) -> bool:
     extensions = utils.extension_list(folder_path)
+
     if not extensions:
-        print("No sortable files found, aborting process.")
-        return False
+        return False # no files were found, abort process
+    
     for extension in extensions:
-        if utils.check_folder(folder_path, extension) == False:
+        if not utils.check_folder(folder_path, extension):
             utils.create_folder(folder_path, extension)
+
     return True

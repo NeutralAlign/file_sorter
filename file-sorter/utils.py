@@ -15,10 +15,11 @@ def extension_list(folder_path: str):
     extensions = set()
     folder = Path(folder_path)
     items = list(folder.iterdir())
-    
+
     for item in items:
         if item.is_file():
             extensions.add(get_extension(item.name))
+
     return extensions
 
 # return the extension type (without a dot)
@@ -33,6 +34,7 @@ def get_extension(filename: str):
 # creates a folder in a directory
 def create_folder(folder_path: str, folder_name: str):
     path = Path(folder_path) / folder_name
+    
     try:
         path.mkdir(parents=True, exist_ok=True)
         print(f"Directory '{folder_path}/{folder_name}' created successfully.")
@@ -51,7 +53,6 @@ def check_folder(folder_path: str, folder_name: str = ""):
 
 # checks if a file is unique, if not, assigns a number to avoid overwriting
 def unique_destination(dest_path: Path, filename: str) -> Path:
-
     target = dest_path / filename
     counter = 1
 
