@@ -14,17 +14,21 @@ def file_selector(info: str):
 def extension_list(folder_path: str):
     extensions = set()
     folder = Path(folder_path)
-
-    # gets each file name from the folder, specifically the 
-    for item in folder.iterdir():
+    items = list(folder.iterdir())
+    
+    for item in items:
         if item.is_file():
-            extension = os.path.splitext(item.name)[1].lstrip(".")
-
-            if extension == "":
-                extension = "unknown"
-            extensions.add(extension)
-
+            extensions.add(get_extension(item.name))
     return extensions
+
+# return the extension type (without a dot)
+def get_extension(filename: str):
+    extension = os.path.splitext(filename)[1].lstrip(".")
+
+    if extension == "":
+        extension = "unknown"
+
+    return extension
 
 # creates a folder in a directory
 def create_folder(folder_path: str, folder_name: str):
