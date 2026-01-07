@@ -3,15 +3,8 @@ from tkinter import filedialog
 from pathlib import Path
 import os
 
-# returns the path to a folder directory
-def file_selector(info: str):
-    root = tk.Tk()
-    root.withdraw() # hides window as nothing there yet
-    folder_path = filedialog.askdirectory(title=info)
-    return folder_path
-
 # returns a list of extensions that exist in a folder directory
-def extension_list(folder_path: str):
+def extension_list(folder_path: str) -> set[str]:
     extensions = set()
     folder = Path(folder_path)
     items = list(folder.iterdir())
@@ -23,7 +16,7 @@ def extension_list(folder_path: str):
     return extensions
 
 # return the extension type (without a dot)
-def get_extension(filename: str):
+def get_extension(filename: str) -> str:
     extension = os.path.splitext(filename)[1].lstrip(".")
 
     if extension == "":
@@ -34,20 +27,11 @@ def get_extension(filename: str):
 # creates a folder in a directory
 def create_folder(folder_path: str, folder_name: str):
     path = Path(folder_path) / folder_name
-    
-    try:
-        path.mkdir(parents=True, exist_ok=True)
-        print(f"Directory '{folder_path}/{folder_name}' created successfully.")
-    except FileExistsError:
-        print(f"Directory '{folder_path}/{folder_name}' already exists.")
-    except PermissionError:
-        print(f"Permission denied: Unable to create '{folder_path}'.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    path.mkdir(parents=True, exist_ok=True)
     return
 
 # makes sure that a folder doesn't exist already
-def check_folder(folder_path: str, folder_name: str = ""):
+def check_folder(folder_path: str, folder_name: str = "") -> bool:
     path = Path(folder_path) / folder_name
     return path.is_dir()
 
