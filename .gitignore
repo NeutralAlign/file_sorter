@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 # icon extensions
-.ico
+*.ico
 
 # Distribution / packaging
 .Python
