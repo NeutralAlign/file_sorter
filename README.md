@@ -1,11 +1,11 @@
 # File Sorter
 
 #### Program Outline
-Allows user to choose a folder and sort files into specific folders based on their extension.
+Allows the user to choose a folder and sort files into specific folders based on their extension via a UI.
 
-#### Running the project via cloning src
+#### Running the project via source
 
-Simply write 'python project.py' to run the program from the source code when cloned.
+Run 'python project.py' to run the program from the source code when cloned.
 
 #### Usage
 
@@ -23,11 +23,18 @@ Opening the program opens a user interface where you can:
 + Files are moved into their respective folders depending on their extension.
 + Progress is tracked with dynamic progress bar.
 
+#### Safety notes
++ Backing up will backup files in a new folder in the chosen directory (../folder/backup/FILES_HERE).
++ Note that any files in the backup folder that have the same file name will be overwritten if backup is selected (ensure to move them after a sort is completed).
++ Messages are present which indicate success or failure.
++ Files must exist in the folder for sorting to be activated.
+
 #### Future Ideas
 
-+ More details regarding the sorting in the UI
-+ Update UI design to be more attractive
-+ More to be added
++ More details regarding the sorting in the UI.
++ Update UI design to be more attractive.
++ Add another button to accept / refuse overwriting of backup or automatically handle these situations with renaming.
++ More to be added.
 
 
 
